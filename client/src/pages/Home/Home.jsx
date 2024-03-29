@@ -6,6 +6,7 @@ import { getExpenses, getIncome } from "../../redux/actions/dataActions";
 import ChartSection from "../../components/Chart/ChartSection";
 import { MdDateRange } from "react-icons/md";
 import { FaComment } from "react-icons/fa";
+import { FaHistory } from "react-icons/fa";
 import { dateFormat } from "../../utils/dateFormatter";
 
 const Home = () => {
@@ -56,11 +57,26 @@ const Home = () => {
 				</div>
 
 				<div className="recent__history">
+					<h2>Recent History</h2>
 					{transactionHistory?.length > 0 &&
 						transactionHistory.map((history, i) => (
 							<div className="income__card card" key={history._id}>
 								<div className="details-logo">
-									<div className="logo">logo</div>
+									<div
+										className=""
+										style={{
+											fontSize: "20px",
+											color: "green",
+											padding: "10px",
+											border: "1px solid",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center",
+											borderRadius: "5px",
+										}}
+									>
+										<FaHistory />
+									</div>
 									<div className="details">
 										<p className="income__label">{history.title}</p>
 										<div className="amounts__details">

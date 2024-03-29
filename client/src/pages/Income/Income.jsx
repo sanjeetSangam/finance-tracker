@@ -152,7 +152,7 @@ const Income = () => {
 											</div>
 										</div>
 									</div>
-									<div className="delete">Delete</div>
+									{/* <div className="delete">Delete</div> */}
 								</div>
 							);
 						})}
