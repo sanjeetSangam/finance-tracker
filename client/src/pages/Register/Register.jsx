@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Register.scss";
 import { registerUser } from "../../redux/actions/authActions";
+import Loader from "react-js-loader";
 
 const Register = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const isLoading = useSelector((state) => state.auth.loading);
+	const { isLoading } = useSelector((state) => state.auth);
 
 	const [inputFields, setInputFields] = useState({
 		userName: "",
@@ -31,50 +32,74 @@ const Register = () => {
 	return (
 		<div className="register">
 			<form onSubmit={Register}>
-				<label htmlFor="fullName">Full Name</label>
+				<h3
+					style={{
+						textAlign: "center",
+						marginBottom: "20px",
+						textTransform: "uppercase",
+					}}
+				>
+					My Financial App
+				</h3>
 				<input
 					type="text"
 					name="fullName"
+					placeholder="Full Name"
 					required
 					value={inputFields.fullName}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 				></input>
-				<label htmlFor="userName">User Name</label>
 				<input
 					type="text"
 					name="userName"
+					placeholder="User Name"
 					required
 					value={inputFields.userName}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 				></input>
-				<label htmlFor="email">Email</label>
 				<input
 					type="email"
 					name="email"
+					placeholder="Email Address"
 					required
 					value={inputFields.email}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 				></input>
-				<label htmlFor="password">Password</label>
 				<input
 					type="password"
 					name="password"
+					placeholder="password"
 					value={inputFields.password}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 					required
 				></input>
-				<button type="submit">Register</button>
-				<button type="button" onClick={() => navigate("/login")}>
-					Login
+				<button disabled={isLoading} className="submit" type="submit">
+					{isLoading ? (
+						<Loader
+							type="spinner-default"
+							bgColor={"white"}
+							color={"white"}
+							size={100}
+						/>
+					) : (
+						"Register"
+					)}
 				</button>
+				<p
+					type="button"
+					style={{ textAlign: "center", cursor: "pointer" }}
+					onClick={() => navigate("/login")}
+				>
+					Already have an account, Login!
+				</p>
 			</form>
 		</div>
 	);

@@ -13,9 +13,9 @@ const Home = () => {
 	const { auth, data } = useSelector((state) => state);
 	const { isAuthenticated } = auth;
 	const { transactionHistory, totalIncome, totalExpense, totalBalance } = data;
-
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	
 	useEffect(() => {
 		if (!isAuthenticated) {
 			navigate("/login");
@@ -57,7 +57,7 @@ const Home = () => {
 				</div>
 
 				<div className="recent__history">
-					<h2>Recent History</h2>
+					<h2 style={{ marginBottom: "10px" }}>Recent History</h2>
 					{transactionHistory?.length > 0 &&
 						transactionHistory.map((history, i) => (
 							<div className="income__card card" key={history._id}>
@@ -68,7 +68,6 @@ const Home = () => {
 											fontSize: "20px",
 											color: "green",
 											padding: "10px",
-											border: "1px solid",
 											display: "flex",
 											alignItems: "center",
 											justifyContent: "center",
@@ -95,7 +94,7 @@ const Home = () => {
 										</div>
 									</div>
 								</div>
-								<div className="delete">Delete</div>
+								{/* <div className="delete">Delete</div> */}
 							</div>
 						))}
 				</div>

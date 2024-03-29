@@ -4,16 +4,23 @@
 	width: 100%;
 	display: grid;
 	place-items: center;
+	background: var(--navbar);
 
 	form {
 		padding: 30px;
 		border: 1px solid;
 		display: flex;
 		flex-direction: column;
+		background: rgba(255, 255, 255, 0.05);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		backdrop-filter: blur(7.5px);
+		-webkit-backdrop-filter: blur(7.5px);
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
 
 		label {
 			margin-bottom: 5px;
-            font-size: 14px;
+			font-size: 14px;
 		}
 		input {
 			margin-bottom: 20px;

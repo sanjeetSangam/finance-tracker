@@ -8,7 +8,7 @@ import { FaMinusCircle } from "react-icons/fa";
 
 const Expenses = () => {
 	const dispatch = useDispatch();
-	const { data, totalExpense } = useSelector((state) => state.data);
+	const { data, totalExpense, loading } = useSelector((state) => state.data);
 	const { expenses } = data;
 
 	const [inputFields, setInputFields] = useState({
@@ -56,7 +56,7 @@ const Expenses = () => {
 						<input
 							type="text"
 							name="title"
-							placeholder="Salary Title"
+							placeholder="Title"
 							required
 							value={title}
 							onChange={(e) => {
@@ -66,7 +66,7 @@ const Expenses = () => {
 						<input
 							type="number"
 							name="amount"
-							placeholder="Salary Amount"
+							placeholder="Amount ($)"
 							value={amount}
 							onChange={(e) => {
 								handleChange(e);
@@ -113,8 +113,8 @@ const Expenses = () => {
 							}}
 							required
 						></input>
-						<button className="submit" type="submit">
-							Add Expense
+						<button disabled={loading} className="submit" type="submit">
+							{loading ? "Adding Expense" : "Add Expense"}
 						</button>
 					</form>
 				</div>

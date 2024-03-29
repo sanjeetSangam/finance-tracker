@@ -8,7 +8,7 @@ import { IoAddCircle } from "react-icons/io5";
 
 const Income = () => {
 	const dispatch = useDispatch();
-	const { data, totalIncome } = useSelector((state) => state.data);
+	const { data, totalIncome, loading } = useSelector((state) => state.data);
 	const { incomes } = data;
 
 	const [inputFields, setInputFields] = useState({
@@ -56,7 +56,7 @@ const Income = () => {
 						<input
 							type="text"
 							name="title"
-							placeholder="Salary Title"
+							placeholder="Title"
 							required
 							value={title}
 							onChange={(e) => {
@@ -66,7 +66,7 @@ const Income = () => {
 						<input
 							type="number"
 							name="amount"
-							placeholder="Salary Amount"
+							placeholder="Amount ($)"
 							value={amount}
 							onChange={(e) => {
 								handleChange(e);
@@ -113,7 +113,7 @@ const Income = () => {
 							required
 						></input>
 						<button className="submit" type="submit">
-							Add Income
+							{loading ? "Adding Income" : "Add Income"}
 						</button>
 					</form>
 				</div>

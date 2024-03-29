@@ -1,16 +1,26 @@
 nav {
 	padding: 10px 100px;
-	background: var(--navbar);
-	color: var(#0d0b33);
+	background: var(--primary-color);
+	color: var(--body);
 	display: flex;
 	// justify-content: center;
 	justify-content: space-between;
 	align-items: center;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(7.5px);
+	-webkit-backdrop-filter: blur(7.5px);
+	border: 1px solid rgba(255, 255, 255, 0.18);
 
 	ul {
 		display: flex;
 		gap: 15px;
 		align-items: center;
 		font-weight: 500;
+
+		li {
+			a {
+				color: var(--body) !important;
+			}
+		}
 	}
 }

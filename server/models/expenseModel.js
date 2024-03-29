@@ -8,6 +8,7 @@ const Expense = new mongoose.Schema(
 		category: { type: String, required: true },
 		desc: { type: String, required: true },
 		user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+		type: { type: String, default: "expense" },
 	},
 	{
 		versionKey: false,
