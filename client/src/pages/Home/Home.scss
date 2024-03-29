@@ -1,0 +1,53 @@
+.home__container {
+	display: flex;
+	gap: 30px;
+	justify-content: center;
+	> div {
+		width: 45%;
+	}
+
+	.chart__total-details {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
+
+	.recent__history {
+	}
+
+	.income {
+		color: green;
+		font-weight: 600;
+		font-size: 28px;
+	}
+
+	.expense {
+		color: red;
+		font-weight: 600;
+		font-size: 28px;
+	}
+
+	.balance {
+		color: green;
+		font-weight: 600;
+		font-size: 28px;
+	}
+
+	.total__details {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+
+		> div {
+			padding: 15px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			justify-content: center;
+			align-items: center;
+			border: 1px solid gray;
+			width: 250px;
+		}
+	}
+}
