@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getIncome, getExpenses, addIncome, addExpense } from "../actions/dataActions";
-import { totalAmount, totalBalance, transactionHistory } from "../../utils/totalAmount";
+import { getAggData } from "../actions/dataActions";
 
 const initialState = {
 	loading: false,
 	data: { incomes: [], expenses: [] },
+	dataLoaded: false,
 	totalIncome: 0,
 	totalExpense: 0,
 	transactionHistory: [],
@@ -15,66 +15,40 @@ const initialState = {
 const dataSlice = createSlice({
 	name: "data",
 	initialState,
-	reducers: {},
+	reducers: {
+		resetData(state) {
+			state.loading = false;
+			state.data = { incomes: [], expenses: [] };
+			state.totalIncome = 0;
+			state.totalExpense = 0;
+			state.transactionHistory = [];
+			state.totalBalance = 0;
+			state.error = null;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(getIncome.pending, (state) => {
+			.addCase(getAggData.pending, (state) => {
 				state.loading = true;
+				state.dataLoaded = false;
 			})
-			.addCase(getIncome.fulfilled, (state, action) => {
+			.addCase(getAggData.fulfilled, (state, action) => {
 				state.loading = false;
-				state.data.incomes = action.payload;
-				state.totalIncome = totalAmount(action.payload);
-				state.transactionHistory = transactionHistory(
-					action.payload,
-					state.transactionHistory
-				);
-				state.totalBalance = totalBalance(state.totalIncome, state.totalExpense);
+				const result = action.payload;
+				state.data = result.data;
+				state.transactionHistory = result.recentHistoryData;
+				state.totalBalance = result.totalBalance;
+				state.totalIncome = result.totalIncomes;
+				state.totalExpense = result.totalExpenses;
+				state.dataLoaded = true;
 			})
-			.addCase(getIncome.rejected, (state, action) => {
+			.addCase(getAggData.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
-			})
-			.addCase(getExpenses.pending, (state) => {
-				state.loading = true;
-			})
-			.addCase(getExpenses.fulfilled, (state, action) => {
-				state.loading = false;
-				state.data.expenses = action.payload;
-				state.totalExpense = totalAmount(action.payload);
-				state.transactionHistory = transactionHistory(
-					action.payload,
-					state.transactionHistory
-				);
-				state.totalBalance = totalBalance(state.totalIncome, state.totalExpense);
-			})
-			.addCase(getExpenses.rejected, (state, action) => {
-				state.loading = false;
-				state.error = action.payload;
-			})
-			.addCase(addIncome.pending, (state) => {
-				state.loading = true;
-			})
-			.addCase(addIncome.fulfilled, (state, action) => {
-				state.loading = false;
-				state.data.incomes = action.payload;
-			})
-			.addCase(addIncome.rejected, (state, action) => {
-				state.loading = false;
-				state.error = action.payload;
-			})
-			.addCase(addExpense.pending, (state) => {
-				state.loading = true;
-			})
-			.addCase(addExpense.fulfilled, (state, action) => {
-				state.loading = false;
-				state.data.expenses = action.payload;
-			})
-			.addCase(addExpense.rejected, (state, action) => {
-				state.loading = false;
-				state.error = action.payload;
+				state.dataLoaded = true;
 			});
 	},
 });
 
+export const { resetData } = dataSlice.actions;
 export default dataSlice.reducer;

@@ -1,36 +1,26 @@
 .home__container {
-	display: flex;
-	gap: 30px;
-	justify-content: center;
-	> div {
-		width: 45%;
-	}
-
-	.chart__total-details {
-		display: flex;
-		flex-direction: column;
-		gap: 30px;
-	}
-
-	.recent__history {
+	.content-wrapper-header {
+		> div {
+			width: 100%;
+		}
 	}
 
 	.income {
-		color: green;
-		font-weight: 600;
-		font-size: 28px;
+		color: #5bc75b;
+		font-weight: 700;
+		font-size: 20px;
 	}
 
 	.expense {
 		color: red;
-		font-weight: 600;
-		font-size: 28px;
+		font-weight: 700;
+		font-size: 20px;
 	}
 
 	.balance {
-		color: green;
-		font-weight: 600;
-		font-size: 28px;
+		color: #5bc75b;
+		font-weight: 700;
+		font-size: 20px;
 	}
 
 	.total__details {
@@ -54,6 +44,31 @@
 			backdrop-filter: blur(14.4px);
 			-webkit-backdrop-filter: blur(14.4px);
 			border: 1px solid rgba(255, 255, 255, 0.45);
+		}
+	}
+
+	.content-wrapper-img {
+		width: 186px;
+		object-fit: cover;
+		margin-top: -25px;
+		object-position: center;
+		@media screen and (max-width: 570px) {
+			width: 110px;
+		}
+	}
+
+	.status-button {
+		cursor: default !important;
+	}
+
+	.summary__details {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		> div {
+			margin: 0;
 		}
 	}
 }

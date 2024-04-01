@@ -1,0 +1,19 @@
+.left-side {
+	border-right: 1px solid var(--border-color);
+	padding: 26px;
+	overflow: auto;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+
+	.side-title {
+		color: var(--theme-color);
+		margin-bottom: 14px;
+	}
+
+	@media screen and (max-width: 945px) {
+		display: none;
+	}
+}

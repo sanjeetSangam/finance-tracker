@@ -12,7 +12,7 @@ const addIncome = async (req, res, next) => {
 			amount,
 			category,
 			desc,
-            date,
+			date,
 			user: req.user._id,
 		};
 
@@ -23,7 +23,7 @@ const addIncome = async (req, res, next) => {
 			return res.json(income).status(201);
 		}
 
-		return res.json({ msg: "Failed to add income to the database" });
+		return res.json({ message: "Failed to add income to the database" });
 	} catch (error) {
 		next(error);
 	}
@@ -31,9 +31,10 @@ const addIncome = async (req, res, next) => {
 
 const getIncomes = async (req, res, next) => {
 	try {
-		let incomes = await IncomeSchema.find({user : req.params.userId}).populate("user", "fullName userName email")
-		.lean()
-		.exec();
+		let incomes = await IncomeSchema.find({ user: req.params.userId })
+			.populate("user", "fullName userName email")
+			.lean()
+			.exec();
 
 		return res.json(incomes).status(200);
 	} catch (error) {
@@ -41,4 +42,14 @@ const getIncomes = async (req, res, next) => {
 	}
 };
 
-export { addIncome, getIncomes };
+const deleteIncome = async (req, res, next) => {
+	try {
+		const recordId = req.params.recordId;
+		await IncomeSchema.findOneAndDelete({ _id: recordId });
+		return res.json({ message: "Deleted Successfully" }).status(200);
+	} catch (error) {
+		next(error);
+	}
+};
+
+export { addIncome, getIncomes, deleteIncome };

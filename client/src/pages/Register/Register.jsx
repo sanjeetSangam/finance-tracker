@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Register.scss";
 import { registerUser } from "../../redux/actions/authActions";
-import Loader from "react-js-loader";
+import { resetError } from "../../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Register = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { isLoading } = useSelector((state) => state.auth);
+	const { loading, error, token, isAuthenticated } = useSelector((state) => state.auth);
 
 	const [inputFields, setInputFields] = useState({
 		userName: "",
@@ -24,11 +25,19 @@ const Register = () => {
 		event.preventDefault();
 		try {
 			await dispatch(registerUser(inputFields));
-			navigate("/");
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			toast.success("🦄 User Created Successfully");
+			navigate("/");
+			return;
+		}
+	}, [token]);
+
 	return (
 		<div className="register">
 			<form onSubmit={Register}>
@@ -45,6 +54,7 @@ const Register = () => {
 					type="text"
 					name="fullName"
 					placeholder="Full Name"
+					autoComplete
 					required
 					value={inputFields.fullName}
 					onChange={(e) => {
@@ -55,6 +65,7 @@ const Register = () => {
 					type="text"
 					name="userName"
 					placeholder="User Name"
+					autoComplete
 					required
 					value={inputFields.userName}
 					onChange={(e) => {
@@ -65,6 +76,7 @@ const Register = () => {
 					type="email"
 					name="email"
 					placeholder="Email Address"
+					autoComplete
 					required
 					value={inputFields.email}
 					onChange={(e) => {
@@ -75,28 +87,24 @@ const Register = () => {
 					type="password"
 					name="password"
 					placeholder="password"
+					autoComplete
 					value={inputFields.password}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 					required
 				></input>
-				<button disabled={isLoading} className="submit" type="submit">
-					{isLoading ? (
-						<Loader
-							type="spinner-default"
-							bgColor={"white"}
-							color={"white"}
-							size={100}
-						/>
-					) : (
-						"Register"
-					)}
+				<button disabled={loading} className="submit" type="submit">
+					{loading ? "Creating new user..." : "Register"}
 				</button>
+				{error && <p style={{ color: "red", marginBottom: "5px" }}>{error.message}</p>}
 				<p
 					type="button"
 					style={{ textAlign: "center", cursor: "pointer" }}
-					onClick={() => navigate("/login")}
+					onClick={() => {
+						dispatch(resetError());
+						navigate("/auth/login");
+					}}
 				>
 					Already have an account, Login!
 				</p>

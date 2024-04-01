@@ -1,4 +1,3 @@
-import React from "react";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import {
@@ -21,10 +20,10 @@ const ChartSection = () => {
 		labels: incomes.map((inc) => {
 			const { date } = inc;
 			const newDate = new Date(date);
-			let time =
-				newDate.getHours() > 12
-					? `${newDate.getHours() - 12}:${newDate.getMinutes()} PM`
-					: `${newDate.getHours()}:${newDate.getMinutes()} AM`;
+			// let time =
+			// 	newDate.getHours() > 12
+			// 		? `${newDate.getHours() - 12}:${newDate.getMinutes()} PM`
+			// 		: `${newDate.getHours()}:${newDate.getMinutes()} AM`;
 			return newDate.toLocaleDateString();
 		}),
 		datasets: [
@@ -54,7 +53,11 @@ const ChartSection = () => {
 	};
 	return (
 		<div className="chart__container">
-			<Line data={chartData} />
+			{incomes?.length > 0 || expenses?.length > 0 ? (
+				<Line data={chartData} />
+			) : (
+				<div className=" no__data">No data</div>
+			)}
 		</div>
 	);
 };

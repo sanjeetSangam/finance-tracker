@@ -1,75 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
+	addExpenseRoute,
 	addIncomeRoute,
-	getAggDataRoute,
-	getExpenseRoute,
-	getIncomeRoute,
+	deleteExpenseRoute,
+	deleteIncomeRoute,
 } from "../../routes/routes";
-
-export const getAggData = createAsyncThunk(
-	"auth/aggData",
-	async (param, { rejectWithValue, getState }) => {
-		try {
-			const { auth } = getState();
-			const { token, userId } = auth;
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-				params: {
-					startDate: param.startDate.toISOString(), // Convert Date objects to ISO strings
-					endDate: param.endDate.toISOString(),
-				},
-			};
-			const { data } = await axios.get(`${getAggDataRoute}/${userId}`, config);
-			return data;
-		} catch (error) {
-			console.log(error);
-			return rejectWithValue(error);
-		}
-	}
-);
-
-export const getIncome = createAsyncThunk(
-	"auth/income",
-	async (param, { rejectWithValue, getState }) => {
-		try {
-			const { auth } = getState();
-			const { token, userId } = auth;
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			const { data } = await axios.get(`${getIncomeRoute}/${userId}`, config);
-			return data;
-		} catch (error) {
-			console.log(error);
-			return rejectWithValue(error);
-		}
-	}
-);
-
-export const getExpenses = createAsyncThunk(
-	"auth/expense",
-	async (param, { rejectWithValue, getState }) => {
-		try {
-			const { auth } = getState();
-			const { token, userId } = auth;
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			const { data } = await axios.get(`${getExpenseRoute}/${userId}`, config);
-			return data;
-		} catch (error) {
-			console.log(error);
-			return rejectWithValue(error);
-		}
-	}
-);
 
 export const addIncome = createAsyncThunk(
 	"auth/add-income",
@@ -83,6 +19,72 @@ export const addIncome = createAsyncThunk(
 				},
 			};
 			const { data } = await axios.post(`${addIncomeRoute}`, incomeDetails, config);
+			return data;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const addExpense = createAsyncThunk(
+	"auth/add-expense",
+	async (expenseDetails, { rejectWithValue, getState }) => {
+		try {
+			const { auth } = getState();
+			const { token } = auth;
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			const { data } = await axios.post(`${addExpenseRoute}`, expenseDetails, config);
+			return data;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const deleteExpense = createAsyncThunk(
+	"auth/delete-expense",
+	async (expenseDetails, { rejectWithValue, getState }) => {
+		try {
+			const { auth } = getState();
+			const { token } = auth;
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			const { data } = await axios.delete(
+				`${deleteExpenseRoute}/${expenseDetails.recordId}`,
+				config
+			);
+			return data;
+		} catch (error) {
+			console.log(error);
+			return rejectWithValue(error);
+		}
+	}
+);
+
+export const deleteIncome = createAsyncThunk(
+	"auth/delete-income",
+	async (incomeDetails, { rejectWithValue, getState }) => {
+		try {
+			const { auth } = getState();
+			const { token } = auth;
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			const { data } = await axios.delete(
+				`${deleteIncomeRoute}/${incomeDetails.recordId}`,
+				config
+			);
 			return data;
 		} catch (error) {
 			console.log(error);

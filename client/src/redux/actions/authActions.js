@@ -10,7 +10,6 @@ export const registerUser = createAsyncThunk(
 			if (data.status) {
 				localStorage.setItem("user", JSON.stringify(data));
 			}
-			console.log(data);
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -25,7 +24,6 @@ export const LoginUser = createAsyncThunk("auth/login", async (useDetails, { rej
 		if (data.status) {
 			localStorage.setItem("user", JSON.stringify(data));
 		}
-		console.log(data);
 		return data;
 	} catch (error) {
 		console.log(error);

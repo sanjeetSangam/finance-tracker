@@ -23,7 +23,7 @@ const addExpense = async (req, res, next) => {
 			return res.json(expense).status(201);
 		}
 
-		return res.json({ msg: "Failed to add expense to the database" });
+		return res.json({ message: "Failed to add expense to the database" });
 	} catch (error) {
 		next(error);
 	}
@@ -42,4 +42,14 @@ const getExpenses = async (req, res, next) => {
 	}
 };
 
-export { addExpense, getExpenses };
+const deleteExpense = async (req, res, next) => {
+	try {
+		const recordId = req.params.recordId;
+		await ExpenseSchema.findOneAndDelete({ _id: recordId });
+		return res.json({ message: "Delete Successfully" }).status(200);
+	} catch (error) {
+		next(error);
+	}
+};
+
+export { addExpense, getExpenses, deleteExpense };

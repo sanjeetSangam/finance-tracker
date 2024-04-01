@@ -1,102 +1,144 @@
-import React, { useEffect } from "react";
-import "./Home.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getExpenses, getIncome } from "../../redux/actions/dataActions";
+import { useSelector } from "react-redux";
 import ChartSection from "../../components/Chart/ChartSection";
-import { MdDateRange } from "react-icons/md";
-import { FaComment } from "react-icons/fa";
-import { FaHistory } from "react-icons/fa";
-import { dateFormat } from "../../utils/dateFormatter";
+import DoughnutChart from "../../components/Doughnut/DoughnutChart";
+import HistoryCard from "../../components/HistoryCard/HistoryCard";
+import Loader from "react-js-loader";
+import "./Home.scss";
+import nodata from "../../assets/nodata.png";
 
 const Home = () => {
-	const { auth, data } = useSelector((state) => state);
-	const { isAuthenticated } = auth;
-	const { transactionHistory, totalIncome, totalExpense, totalBalance } = data;
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	
-	useEffect(() => {
-		if (!isAuthenticated) {
-			navigate("/login");
-			return;
-		}
-		const getData = async () => {
-			await dispatch(getIncome());
-			await dispatch(getExpenses());
-		};
+	const { transactionHistory, totalIncome, totalExpense, totalBalance, loading } = useSelector(
+		(state) => state.data
+	);
 
-		getData();
-	}, []);
+	const totalAmount = totalExpense + totalIncome;
+	const totalExpenseChartData = {
+		dataset: [totalAmount, totalExpense],
+		background: ["rgb(8, 78, 136)", "rgb(230, 87, 22)"],
+		chartLabels: ["Total Income", "Total Expense"],
+	};
+	const totalBalanceChartData = {
+		dataset: [totalAmount, totalBalance],
+		background: ["rgb(8, 78, 136)", "rgb(112, 2, 103)"],
+		chartLabels: ["Total Income", "Total Balance"],
+	};
+
+	if (loading)
+		return (
+			<div className="loader__className">
+				<Loader
+					type="bubble-loop"
+					bgColor={"	#36454F"}
+					color={"	#36454F"}
+					title-color="	#36454F"
+					loader-color="	#36454F"
+					title={"Please wait..."}
+					size={100}
+				/>
+			</div>
+		);
+
 	return (
 		<section>
 			<div className="home__container">
-				<div className="chart__total-details">
+				<div className="content-wrapper-header">
 					<ChartSection />
+					<img
+						className="content-wrapper-img"
+						src="https://assets.codepen.io/3364143/glass.png"
+						alt=""
+					/>
+				</div>
 
-					<div className="total__details">
-						<div className="total__income ">
-							<p>Total Income</p>
-							<h1 className="income">
-								$ <span>{totalIncome}</span>
-							</h1>
+				<div className="content-section">
+					<div className="content-section-title">Amount Explore</div>
+					<div className="apps-card">
+						<div className="app-card">
+							{totalAmount > 0 ? (
+								<DoughnutChart data={totalExpenseChartData} />
+							) : (
+								<div className="no__data">
+									{" "}
+									<img className="nodata__img" src={nodata} /> No Expense Graph
+								</div>
+							)}
+
+							<div className="app-card-buttons">
+								<button
+									className="content-button status-button"
+									style={{ background: "red" }}
+								>
+									Expense
+								</button>
+							</div>
 						</div>
-						<div className="total__expense">
-							<p>Total Expense</p>
-							<h1 className="expense">
-								$ <span>-{totalExpense}</span>
-							</h1>
+						<div className="app-card">
+							<div className="summary__details">
+								<div
+									className="app-card no__data"
+									style={{ color: "#5bc75b", fontWeight: "700" }}
+								>
+									Total Income : ₹ {totalIncome}
+								</div>
+								<div
+									className="app-card no__data"
+									style={{ color: "red", fontWeight: "700" }}
+								>
+									Total Expense : ₹ {totalExpense}
+								</div>
+								<div
+									className="app-card no__data"
+									style={{
+										color: `${totalBalance < 0 ? "red" : "#5bc75b"}`,
+										fontWeight: "700",
+									}}
+								>
+									Total Balance : ₹ {totalBalance}
+								</div>
+							</div>
+
+							<div className="app-card-buttons">
+								<button
+									className="content-button status-button"
+									style={{ background: "#5bc75b" }}
+								>
+									Summary
+								</button>
+							</div>
 						</div>
-						<div className="total__balance">
-							<p>Total Balance</p>
-							<h1 className={totalBalance < 0 ? "expense" : "balance"}>
-								$ <span>{totalBalance}</span>
-							</h1>
+						<div className="app-card">
+							{totalAmount > 0 ? (
+								<DoughnutChart data={totalBalanceChartData} />
+							) : (
+								<div className="no__data">
+									<img className="nodata__img" src={nodata} />
+									No Balance Graph
+								</div>
+							)}
+
+							<div className="app-card-buttons">
+								<button
+									className="content-button status-button"
+									style={{ background: "rgb(112, 2, 103)" }}
+								>
+									Balance
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				<div className="recent__history">
-					<h2 style={{ marginBottom: "10px" }}>Recent History</h2>
-					{transactionHistory?.length > 0 &&
-						transactionHistory.map((history, i) => (
-							<div className="income__card card" key={history._id}>
-								<div className="details-logo">
-									<div
-										className=""
-										style={{
-											fontSize: "20px",
-											color: "green",
-											padding: "10px",
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "center",
-											borderRadius: "5px",
-										}}
-									>
-										<FaHistory />
-									</div>
-									<div className="details">
-										<p className="income__label">{history.title}</p>
-										<div className="amounts__details">
-											<p className="amount expense">
-												$ <span className="expense">{history.amount}</span>
-											</p>
-											<p className="date">
-												<MdDateRange />
-												{dateFormat(history.date)}
-											</p>
-											<p className="desc">
-												<FaComment />
-
-												{history.desc}
-											</p>
-										</div>
-									</div>
-								</div>
-								{/* <div className="delete">Delete</div> */}
-							</div>
-						))}
+				<div className="content-section">
+					<div className="content-section-title">Recent History</div>
+					<ul>
+						{transactionHistory?.length > 0 ? (
+							transactionHistory.map((history) => (
+								<HistoryCard dataItem={history} key={history?._id} />
+							))
+						) : (
+							<div className="no__records">No Data yet</div>
+						)}
+					</ul>
 				</div>
 			</div>
 		</section>

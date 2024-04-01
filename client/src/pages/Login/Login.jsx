@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser } from "../../redux/actions/authActions";
-import Loader from "react-js-loader";
+import { resetError } from "../../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { isLoading } = useSelector((state) => state.auth);
+	const { loading, error, isAuthenticated, token } = useSelector((state) => state.auth);
+
 	const [inputFields, setInputFields] = useState({
 		userName: "",
 		password: "",
@@ -21,11 +23,18 @@ const Login = () => {
 		event.preventDefault();
 		try {
 			await dispatch(LoginUser(inputFields));
-			navigate("/");
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			toast.success("🦄 Login Success!");
+			navigate("/");
+			return;
+		}
+	}, [token]);
 
 	return (
 		<div className="login">
@@ -39,10 +48,12 @@ const Login = () => {
 				>
 					My Financial App
 				</h3>
+
 				<input
 					type="text"
 					name="userName"
 					placeholder="User Name"
+					autoComplete="username"
 					required
 					value={inputFields.userName}
 					onChange={(e) => {
@@ -53,28 +64,24 @@ const Login = () => {
 					placeholder="Password"
 					type="password"
 					name="password"
+					autoComplete="current-password"
 					value={inputFields.password}
 					onChange={(e) => {
 						handleChange(e);
 					}}
 					required
 				></input>
-				<button className="submit" type="submit">
-				{isLoading ? (
-						<Loader
-							type="spinner-default"
-							bgColor={"white"}
-							color={"white"}
-							size={100}
-						/>
-					) : (
-						"Login"
-					)}
+				<button disabled={loading} className="submit" type="submit">
+					{loading ? "Logging..." : "Login"}
 				</button>
+				{error && <p style={{ color: "red", marginBottom: "5px" }}>{error.message}</p>}
 				<p
 					type="button"
 					style={{ textAlign: "center", cursor: "pointer" }}
-					onClick={() => navigate("/register")}
+					onClick={() => {
+						dispatch(resetError());
+						navigate("/auth/register");
+					}}
 				>
 					Not have an account, Register!
 				</p>

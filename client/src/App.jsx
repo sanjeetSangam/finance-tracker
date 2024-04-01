@@ -1,54 +1,51 @@
-import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import fallbackRender from "./utils/ErrorBoundary";
-import { ErrorBoundary } from "react-error-boundary";
-import Loader from "react-js-loader";
-
-import Navbar from "./components/Navbar/Navbar";
-const LazyHome = lazy(() => import("./pages/Home/Home"));
-const LazyIncome = lazy(() => import("./pages/Income/Income"));
-const LazyExpenses = lazy(() => import("./pages/Expenses/Expenses"));
-const LazyRegister = lazy(() => import("./pages/Register/Register"));
-const LazyLogin = lazy(() => import("./pages/Login/Login"));
+import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { BasicContext } from "./context";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import Auth from "./Routings/Auth";
+import Authenticated from "./Routings/Authenticated";
+import Bubble from "./components/Bubble/Bubble";
 
 function App() {
+	const { isAuthenticated } = useSelector((state) => state.auth);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [itemId, setItemId] = useState(null);
+	const [modalAction, setModalAction] = useState(null);
+	const [selectedMonth, setSelectedMonth] = useState({ startDate: null, endDate: null });
+	const [themeMode, setThemeMode] = useState("");
+	const navigate = useNavigate();
+
+	const loggedOuts = ["/auth/login", "/auth/register"];
+
+	useEffect(() => {
+		if (!isAuthenticated && !loggedOuts.includes(window.location.pathname)) {
+			navigate("/auth/login");
+			return;
+		}
+	}, []);
 
 	return (
-		<BrowserRouter>
-			<ErrorBoundary FallbackComponent={fallbackRender} onReset={() => {}}>
-				<Suspense
-					fallback={
-						<div className="loader__class">
-							<Loader
-								type="bubble-loop"
-								bgColor={"red"}
-								color={"red"}
-								title-color="red"
-								loader-color="red"
-								size={100}
-							/>
-						</div>
-					}
-				>
-					<Routes>
-						<Route path="/login" element={<LazyLogin />} />
-						<Route path="/register" element={<LazyRegister />} />
-						<Route
-							element={
-								<>
-									<Navbar />
-									<Outlet />
-								</>
-							}
-						>
-							<Route path="/" element={<LazyHome />} />
-							<Route path="/incomes" element={<LazyIncome />} />
-							<Route path="/expenses" element={<LazyExpenses />} />
-						</Route>
-					</Routes>
-				</Suspense>
-			</ErrorBoundary>
-		</BrowserRouter>
+		<BasicContext.Provider
+			value={{
+				setIsModalOpen,
+				isModalOpen,
+				themeMode,
+				setThemeMode,
+				itemId,
+				setItemId,
+				modalAction,
+				setModalAction,
+				selectedMonth,
+				setSelectedMonth,
+			}}
+		>
+			<Bubble />
+			<Routes>
+				<Route path="/auth/*" element={<Auth />} />
+				<Route path="/*" element={<Authenticated />} />
+			</Routes>
+		</BasicContext.Provider>
 	);
 }
 
