@@ -12,14 +12,13 @@ const Home = () => {
 		(state) => state.data
 	);
 
-	const totalAmount = totalExpense + totalIncome;
 	const totalExpenseChartData = {
-		dataset: [totalAmount, totalExpense],
+		dataset: [totalIncome, totalExpense],
 		background: ["rgb(8, 78, 136)", "rgb(230, 87, 22)"],
 		chartLabels: ["Total Income", "Total Expense"],
 	};
 	const totalBalanceChartData = {
-		dataset: [totalAmount, totalBalance],
+		dataset: [totalIncome, totalBalance],
 		background: ["rgb(8, 78, 136)", "rgb(112, 2, 103)"],
 		chartLabels: ["Total Income", "Total Balance"],
 	};
@@ -44,18 +43,14 @@ const Home = () => {
 			<div className="home__container">
 				<div className="content-wrapper-header">
 					<ChartSection />
-					<img
-						className="content-wrapper-img"
-						src={homeImage}
-						alt=""
-					/>
+					<img className="content-wrapper-img" src={homeImage} alt="" />
 				</div>
 
 				<div className="content-section">
 					<div className="content-section-title">Amount Explore</div>
 					<div className="apps-card">
 						<div className="app-card">
-							{totalAmount > 0 ? (
+							{totalExpense > 0 || totalIncome > 0 ? (
 								<DoughnutChart data={totalExpenseChartData} />
 							) : (
 								<div className="no__data">
@@ -108,7 +103,7 @@ const Home = () => {
 							</div>
 						</div>
 						<div className="app-card">
-							{totalAmount > 0 ? (
+							{totalExpense > 0 || totalIncome > 0 ? (
 								<DoughnutChart data={totalBalanceChartData} />
 							) : (
 								<div className="no__data">
