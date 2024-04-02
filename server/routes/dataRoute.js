@@ -1,6 +1,6 @@
 import express from "express";
 import protect from "../middlewares/authMiddleware.js";
-import { aggregateData, getAllData } from "../controllers/dataController.js";
+import { getAllData } from "../controllers/dataController.js";
 
 const aggDataRouter = express.Router();
 

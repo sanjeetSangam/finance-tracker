@@ -1,13 +1,10 @@
 nav {
-	// box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-	// backdrop-filter: blur(7.5px);
-
 	.menu-circle {
 		width: 15px;
 		height: 15px;
 		background-color: #f96057;
 		border-radius: 50%;
-		box-shadow: 24px 0 0 0 #f8ce52, 48px 0 0 0 #5fcf65;
+		box-shadow: 24px 0 0 0 #f8ce52, 48px 0 0 0 #5fcf65, 70px 0 0 0 red;
 		margin-right: 195px;
 		flex-shrink: 0;
 		@media screen and (max-width: 945px) {
@@ -37,5 +34,15 @@ nav {
 		top: 8px;
 		margin-right: 40px;
 		z-index: 5;
+	}
+
+	@media screen and (max-width: 650px) {
+		.menu-link-main {
+			display: none;
+		}
+
+		.header-profile {
+			margin: 0;
+		}
 	}
 }

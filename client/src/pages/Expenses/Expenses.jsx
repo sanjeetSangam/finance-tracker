@@ -57,7 +57,7 @@ const Expenses = () => {
 			toast.error("Something went wrong!");
 			dispatch(resetCrud());
 		}
-	}, [createExpense, selectedMonth]);
+	}, [createExpense]);
 
 	if (loading)
 		return (
@@ -114,7 +114,7 @@ const Expenses = () => {
 						<option value="subscriptions">Subscriptions</option>
 						<option value="takeaways">Takeaways</option>
 						<option value="clothing">Clothing</option>
-						<option value="travelling">Travelling</option>
+						<option value="traveling">Traveling</option>
 						<option value="other">Other</option>
 					</select>
 

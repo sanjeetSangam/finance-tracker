@@ -18,7 +18,7 @@ const getAllData = async (req, res, next) => {
 			user: req.params.userId,
 			...dateQuery,
 		})
-			.sort({ date: 1 })
+			.sort({ date: -1 })
 			.populate("user", "fullName userName email")
 			.lean()
 			.exec();
@@ -27,7 +27,7 @@ const getAllData = async (req, res, next) => {
 			user: req.params.userId,
 			...dateQuery,
 		})
-			.sort({ date: 1 })
+			.sort({ date: -1 })
 			.populate("user", "fullName userName email")
 			.lean()
 			.exec();
@@ -40,8 +40,9 @@ const getAllData = async (req, res, next) => {
 		};
 
 		const recentHistoryData = allData
-			.slice(0, 5)
-			.sort((a, b) => new Date(a.date) - new Date(b.date));
+			.sort((a, b) => new Date(b.date) - new Date(a.date))
+			.slice(0, 5);
+
 		let totalBalance = 0;
 		let totalIncomes = 0;
 		let totalExpenses = 0;

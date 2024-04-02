@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { MdDateRange } from "react-icons/md";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { dateFormat } from "../../utils/dateFormatter";
 import { BasicContext } from "../../context";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import "./HistoryCard.scss";
 
 const HistoryCard = ({ dataItem }) => {
 	const [menuOpen, setMenuOpen] = useState(false);
@@ -32,24 +33,32 @@ const HistoryCard = ({ dataItem }) => {
 	}, []);
 
 	return (
-		<li className="adobe-product">
-			<div className="products">
-				<RiMoneyDollarCircleFill size={25} color={dataItem.type === "income" ? "#5bc75b" : "red"}/>
-				{dataItem.title}
+		<li className="history__card">
+			<div className="title__logo">
+				<RiMoneyDollarCircleFill
+					size={25}
+					color={dataItem.type === "income" ? "#5bc75b" : "red"}
+				/>
 			</div>
 
-			<span className={dataItem.type === "income" ? "income status" : "expense status"}>
-			₹ {dataItem.amount}
-			</span>
-			<span className="status">
-				{/* <span className="status-circle green"></span> */}
-				<MdDateRange />
-				{dateFormat(dataItem.date)}
-			</span>
-			<span className="status" style={{ display: "flex", alignItems: "center" }}>
-				<FaComment />
-				{dataItem.desc}
-			</span>
+			<div className="title__card">
+				<p>{dataItem.title}</p>
+
+				<div className="card__info">
+					<span className={dataItem.type === "income" ? "income " : "expense "}>
+						₹ {dataItem.amount}
+					</span>
+					<span className="">
+						<MdDateRange style={{ margin: "0" }} />
+						{dateFormat(dataItem.date)}
+					</span>
+					<span className="desc" style={{ display: "flex", alignItems: "center" }}>
+						<FaComment style={{ margin: "0" }} />
+						{dataItem.desc}
+					</span>
+				</div>
+			</div>
+
 			<div className="button-wrapper" ref={menuRef}>
 				<div
 					className="menu__container"
@@ -62,7 +71,7 @@ const HistoryCard = ({ dataItem }) => {
 
 				<button className={`${menuOpen ? "dropdown is-active " : "dropdown"}`}>
 					<ul>
-						{/* <li><FaRegEdit style={{ margin: "0" }} /> Edit</li> */}
+						<li><FaRegEdit style={{ margin: "0" }} /> Edit</li>
 
 						<li onClick={openDeleteModal}>
 							<MdDelete style={{ margin: "0" }} /> Delete

@@ -12,40 +12,69 @@ import {
 } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 import "./ChartSection.scss";
+import { useContext, useEffect, useState } from "react";
+import { BasicContext } from "../../context";
 
 const ChartSection = () => {
 	const { data } = useSelector((state) => state.data);
 	const { incomes, expenses } = data;
+	const { selectedMonth } = useContext(BasicContext);
+	const [dates, setDates] = useState([]);
+	const [incomeAmounts, setIncomeAmounts] = useState([]);
+	const [expenseAmounts, setExpenseAmounts] = useState([]);
+
+	const updateDataMap = (data, type) => {
+		let updatedDataMap = {};
+		data.forEach((item) => {
+			const date = item.date.split("T")[0];
+			const amount = item.amount;
+
+			if (updatedDataMap[date]) {
+				updatedDataMap[date][type] += amount;
+			} else {
+				updatedDataMap[date] = { income: 0, expense: 0, [type]: amount };
+			}
+		});
+		return updatedDataMap;
+	};
+
+	useEffect(() => {
+		const updatedDataMap = updateDataMap(incomes, "income");
+		const updatedDataMapWithExpenses = updateDataMap(expenses, "expense");
+
+		const mergedDataMap = {};
+		for (const key in updatedDataMap) {
+			mergedDataMap[key] = updatedDataMap[key];
+		}
+		for (const key in updatedDataMapWithExpenses) {
+			if (mergedDataMap[key]) {
+				mergedDataMap[key].expense = updatedDataMapWithExpenses[key].expense;
+			} else {
+				mergedDataMap[key] = updatedDataMapWithExpenses[key];
+			}
+		}
+
+		const sortedDates = Object.keys(mergedDataMap).sort();
+		setDates(sortedDates);
+
+		const updatedIncomeAmounts = sortedDates.map((date) => mergedDataMap[date].income);
+		const updatedExpenseAmounts = sortedDates.map((date) => mergedDataMap[date].expense);
+		setIncomeAmounts(updatedIncomeAmounts);
+		setExpenseAmounts(updatedExpenseAmounts);
+	}, [selectedMonth]);
+
 	const chartData = {
-		labels: incomes.map((inc) => {
-			const { date } = inc;
-			const newDate = new Date(date);
-			// let time =
-			// 	newDate.getHours() > 12
-			// 		? `${newDate.getHours() - 12}:${newDate.getMinutes()} PM`
-			// 		: `${newDate.getHours()}:${newDate.getMinutes()} AM`;
-			return newDate.toLocaleDateString();
-		}),
+		labels: dates,
 		datasets: [
 			{
 				label: "Income",
-				data: [
-					...incomes.map((income) => {
-						const { amount } = income;
-						return amount;
-					}),
-				],
+				data: incomeAmounts,
 				backgroundColor: "green",
 				tension: 0.2,
 			},
 			{
 				label: "Expenses",
-				data: [
-					...expenses.map((expense) => {
-						const { amount } = expense;
-						return amount;
-					}),
-				],
+				data: expenseAmounts,
 				backgroundColor: "red",
 				tension: 0.2,
 			},

@@ -3,8 +3,9 @@ import ChartSection from "../../components/Chart/ChartSection";
 import DoughnutChart from "../../components/Doughnut/DoughnutChart";
 import HistoryCard from "../../components/HistoryCard/HistoryCard";
 import Loader from "react-js-loader";
-import "./Home.scss";
 import nodata from "../../assets/nodata.png";
+import homeImage from "../../assets/home_png.png";
+import "./Home.scss";
 
 const Home = () => {
 	const { transactionHistory, totalIncome, totalExpense, totalBalance, loading } = useSelector(
@@ -45,7 +46,7 @@ const Home = () => {
 					<ChartSection />
 					<img
 						className="content-wrapper-img"
-						src="https://assets.codepen.io/3364143/glass.png"
+						src={homeImage}
 						alt=""
 					/>
 				</div>

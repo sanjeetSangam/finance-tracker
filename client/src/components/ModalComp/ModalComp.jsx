@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
-import "./ModalComp.scss";
 import { BasicContext } from "../../context";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteExpense, deleteIncome } from "../../redux/actions/dataCrudActions";
 import { getAggData } from "../../redux/actions/dataActions";
 import { resetCrud } from "../../redux/slices/dataCrudSlice";
 import { toast } from "react-toastify";
+import "./ModalComp.scss";
 
 const ModalComp = () => {
 	const { setIsModalOpen, isModalOpen, setItemId, itemId, modalAction } =

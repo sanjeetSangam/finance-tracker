@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { BasicContext } from "./context";
-import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import Auth from "./Routings/Auth";
 import Authenticated from "./Routings/Authenticated";
 import Bubble from "./components/Bubble/Bubble";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	const { isAuthenticated } = useSelector((state) => state.auth);
@@ -13,7 +13,7 @@ function App() {
 	const [itemId, setItemId] = useState(null);
 	const [modalAction, setModalAction] = useState(null);
 	const [selectedMonth, setSelectedMonth] = useState({ startDate: null, endDate: null });
-	const [themeMode, setThemeMode] = useState("");
+	const [lineChartDates, setLineChartDates] = useState([]);
 	const navigate = useNavigate();
 
 	const loggedOuts = ["/auth/login", "/auth/register"];
@@ -30,14 +30,14 @@ function App() {
 			value={{
 				setIsModalOpen,
 				isModalOpen,
-				themeMode,
-				setThemeMode,
 				itemId,
 				setItemId,
 				modalAction,
 				setModalAction,
 				selectedMonth,
 				setSelectedMonth,
+				lineChartDates,
+				setLineChartDates,
 			}}
 		>
 			<Bubble />

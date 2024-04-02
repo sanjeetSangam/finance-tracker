@@ -4,11 +4,8 @@ import Register from "../pages/Register/Register";
 const Auth = () => {
 	return (
 		<Routes>
-			{/* <Route element={<div style={{ border: "1px solid red", height: "200px" }}></div>}> */}
-			{/* <Route index element={<Navigate to="login" replace />} /> */}
 			<Route path="login" element={<Login />} />
 			<Route path="register" element={<Register />} />
-			{/* </Route> */}
 		</Routes>
 	);
 };

@@ -18,14 +18,14 @@ export const getAggData = createAsyncThunk(
 					Authorization: `Bearer ${token}`,
 				},
 				params: {
-					startDate: param.startDate.toISOString(), // Convert Date objects to ISO strings
-					endDate: param.endDate.toISOString(),
+					startDate: param.startDate,
+					endDate: param.endDate,
 				},
 			};
 			const { data } = await axios.get(`${getAggDataRoute}/${userId}`, config);
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return rejectWithValue(error);
 		}
 	}
@@ -45,7 +45,7 @@ export const getIncome = createAsyncThunk(
 			const { data } = await axios.get(`${getIncomeRoute}/${userId}`, config);
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return rejectWithValue(error);
 		}
 	}
@@ -65,7 +65,7 @@ export const getExpenses = createAsyncThunk(
 			const { data } = await axios.get(`${getExpenseRoute}/${userId}`, config);
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return rejectWithValue(error);
 		}
 	}
@@ -85,7 +85,7 @@ export const addIncome = createAsyncThunk(
 			const { data } = await axios.post(`${addIncomeRoute}`, incomeDetails, config);
 			return data;
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return rejectWithValue(error);
 		}
 	}

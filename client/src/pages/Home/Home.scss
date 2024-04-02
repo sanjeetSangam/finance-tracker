@@ -3,48 +3,24 @@
 		> div {
 			width: 100%;
 		}
+
+		@media screen and (max-width: 610px) {
+			img {
+				display: none;
+			}
+		}
 	}
 
 	.income {
 		color: #5bc75b;
-		font-weight: 700;
-		font-size: 20px;
 	}
 
 	.expense {
 		color: red;
-		font-weight: 700;
-		font-size: 20px;
 	}
 
 	.balance {
 		color: #5bc75b;
-		font-weight: 700;
-		font-size: 20px;
-	}
-
-	.total__details {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 10px;
-
-		> div {
-			padding: 15px;
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
-			justify-content: center;
-			align-items: center;
-			width: 250px;
-			/* From https://css.glass */
-			background: rgba(255, 255, 255, 0.38);
-			border-radius: 16px;
-			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-			backdrop-filter: blur(14.4px);
-			-webkit-backdrop-filter: blur(14.4px);
-			border: 1px solid rgba(255, 255, 255, 0.45);
-		}
 	}
 
 	.content-wrapper-img {

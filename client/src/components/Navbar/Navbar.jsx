@@ -7,13 +7,14 @@ import { MonthPicker, MonthInput } from "react-lite-month-picker";
 import { useContext, useEffect, useState } from "react";
 import { BasicContext } from "../../context";
 import "./Navbar.scss";
+import { getAggData } from "../../redux/actions/dataActions";
 
 const Navbar = () => {
 	const [selectedMonthData, setSelectedMonthData] = useState({
 		month: new Date().getMonth() + 1,
 		year: new Date().getFullYear(),
 	});
-	const { setSelectedMonth } = useContext(BasicContext);
+	const { setSelectedMonth, setLineChartDates } = useContext(BasicContext);
 	const [isPickerOpen, setIsPickerOpen] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -34,12 +35,15 @@ const Navbar = () => {
 
 		const startDate = new Date(startYear, startMonth - 1, 1);
 		const endDate = new Date(endYear, endMonth - 1, 1);
-		setSelectedMonth({ startDate, endDate });
-		return { startDate, endDate };
+		const dates = { startDate, endDate };
+		setSelectedMonth(dates);
+		dispatch(getAggData(dates));
+		return dates;
 	}
 
 	useEffect(() => {
 		getDateRange(selectedMonthData);
+		setLineChartDates(selectedMonthData);
 	}, [selectedMonthData]);
 
 	return (
@@ -82,11 +86,6 @@ const Navbar = () => {
 							navigate("/auth/login");
 						}}
 					/>
-					{/* <img
-						className="profile-img"
-						src="https://images.unsplash.com/photo-1600353068440-6361ef3a86e8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-						alt=""
-					/> */}
 				</div>
 			</div>
 		</nav>

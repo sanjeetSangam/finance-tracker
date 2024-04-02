@@ -7,11 +7,10 @@ import { prepareChartData } from "../../utils/prepareChartData";
 import { addIncome } from "../../redux/actions/dataCrudActions";
 import { resetCrud } from "../../redux/slices/dataCrudSlice";
 import { toast } from "react-toastify";
-import "./Income.scss";
 import nodata from "../../assets/nodata.png";
 import { BasicContext } from "../../context";
 import Loader from "react-js-loader";
-// import InfiniteScroll from "react-infinite-scroll-component";
+import "./Income.scss";
 
 const Income = () => {
 	const dispatch = useDispatch();
@@ -60,7 +59,7 @@ const Income = () => {
 			toast.error("Something went wrong!");
 			dispatch(resetCrud());
 		}
-	}, [createIncome, selectedMonth]);
+	}, [createIncome]);
 
 	if (loading)
 		return (
