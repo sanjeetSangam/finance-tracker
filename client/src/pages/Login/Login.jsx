@@ -7,6 +7,7 @@ import { resetError } from "../../redux/slices/authSlice";
 import { toast } from "react-toastify";
 
 const Login = () => {
+	const [intialMsg, setIntialMsg] = useState("Logging...");
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { loading, error, isAuthenticated, token } = useSelector((state) => state.auth);
@@ -35,6 +36,12 @@ const Login = () => {
 			return;
 		}
 	}, [token]);
+
+	useEffect(() => {
+		setTimeout(() => {
+			if (loading) setIntialMsg("Server is sleeping! Please wait...");
+		}, 5000);
+	}, [loading]);
 
 	return (
 		<div className="login">
@@ -72,7 +79,7 @@ const Login = () => {
 					required
 				></input>
 				<button disabled={loading} className="submit" type="submit">
-					{loading ? "Logging..." : "Login"}
+					{loading ? intialMsg : "Login"}
 				</button>
 				{error && <p style={{ color: "red", marginBottom: "5px" }}>{error.message}</p>}
 				<p

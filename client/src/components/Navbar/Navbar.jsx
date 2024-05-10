@@ -78,7 +78,7 @@ const Navbar = () => {
 					</div>
 					<RiLogoutBoxRLine
 						title="Logout"
-						style={{ fontSize: "30px", cursor: "pointer" }}
+						style={{ fontSize: "30px", cursor: "pointer", color: "var(--theme-color)" }}
 						onClick={() => {
 							localStorage.removeItem("user");
 							dispatch(resetUser());

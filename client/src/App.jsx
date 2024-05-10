@@ -4,7 +4,7 @@ import { BasicContext } from "./context";
 import { useSelector } from "react-redux";
 import Auth from "./Routings/Auth";
 import Authenticated from "./Routings/Authenticated";
-import Bubble from "./components/Bubble/Bubble";
+// import Bubble from "./components/Bubble/Bubble";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
 				setLineChartDates,
 			}}
 		>
-			<Bubble />
+			{/* <Bubble /> */}
 			<Routes>
 				<Route path="/auth/*" element={<Auth />} />
 				<Route path="/*" element={<Authenticated />} />

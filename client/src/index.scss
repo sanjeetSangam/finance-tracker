@@ -48,7 +48,9 @@ html {
 
 body {
 	font-family: var(--body-font);
-	background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
+	// background-image: url(https://wallpapershome.com/images/wallpapers/macos-big-sur-1280x720-dark-wwdc-2020-22655.jpg);
+	background: rgb(17, 2, 27);
+	// background: var(--theme-bg-color);
 	background-size: cover;
 	background-position: center;
 	display: flex;
@@ -95,8 +97,8 @@ form {
 	}
 
 	.submit {
-		background: var(--theme-bg-color);
-		color: var(--theme-color);
+		color: var(--theme-bg-color);
+		background: var(--theme-color);
 		cursor: pointer;
 	}
 }
@@ -493,4 +495,20 @@ button:disabled {
 	width: 100%;
 	display: grid;
 	place-items: center;
+}
+
+.auth-container {
+	position: relative;
+	width: 100%;
+}
+
+.auth-container-overlay {
+	position: absolute;
+	height: 100%;
+	background-image: url("https://cdn.sanity.io/images/lkqdt809/production/12c9d7a9bbb4d02a249d037ecc47534d45508cf8-1919x1079.png");
+	width: 100%;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	opacity: 0.1;
 }
